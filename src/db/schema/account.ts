@@ -3,7 +3,7 @@ import { pgTable } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import type { z } from "zod";
 
-export const account = pgTable("accounts", (t) => ({
+export const accounts = pgTable("accounts", (t) => ({
   id: t
     .text()
     .$defaultFn(() => createId())
@@ -15,7 +15,7 @@ export const account = pgTable("accounts", (t) => ({
   password: t.text().notNull(),
 }));
 
-export const insertAccountSchema = createInsertSchema(account, {
+export const insertAccountSchema = createInsertSchema(accounts, {
   email: (schema) => schema.email.email(),
 });
-export type AccountInput = z.infer<typeof insertAccountSchema>;
+export type AccountInput = Omit<z.infer<typeof insertAccountSchema>, "id">;

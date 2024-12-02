@@ -1,7 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { api } from "@/lib/api";
 
 const formSchema = z.object({
   name: z.string().min(3, "Min 3 characters").trim(),
@@ -26,6 +30,8 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export function SignUpForm() {
+  const [isLoading, startTransaction] = useTransition();
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,7 +43,21 @@ export function SignUpForm() {
   });
 
   async function onSubmit(values: FormData) {
-    console.log(values);
+    async function signIn() {
+      const res = await api.accounts.$post({ json: values });
+
+      if (!res.ok) {
+        const error = await res.json();
+        toast.error(`Error: ${error.message}`);
+        return;
+      }
+
+      const data = await res.json();
+
+      toast.success(data.message);
+    }
+
+    startTransaction(() => signIn());
   }
 
   return (
@@ -112,7 +132,12 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full">Login</Button>
+        <Button
+          disabled={isLoading}
+          className="w-full"
+        >
+          {isLoading ? <Loader2 className="size-4 animate-spin" /> : "Login"}
+        </Button>
       </form>
     </Form>
   );
