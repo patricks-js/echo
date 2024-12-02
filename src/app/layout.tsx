@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import type { PropsWithChildren } from "react";
 
-import { Navbar } from "@/components/navbar";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -25,8 +24,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       <body
         className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
       >
-        <Navbar />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );
