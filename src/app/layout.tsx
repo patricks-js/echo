@@ -22,9 +22,11 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       lang="en"
       suppressHydrationWarning
     >
-      <body className={cn("font-sans antialiased", fontSans.variable)}>
+      <body
+        className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
+      >
         <Navbar />
-        {children}
+        <main>{children}</main>
       </body>
     </html>
   );
