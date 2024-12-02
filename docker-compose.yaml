@@ -1,0 +1,11 @@
+name: echo-app
+
+services:
+  db:
+    image: bitnami/postgresql:16
+    container_name: echo-db
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - 5432:5432
