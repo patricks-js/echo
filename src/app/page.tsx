@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <div>
-      <h1>Hello Echo!</h1>
+    <div className="grid min-h-screen place-content-center">
+      <h1 className="font-bold text-4xl">Hello Echo!</h1>
     </div>
   );
 }
