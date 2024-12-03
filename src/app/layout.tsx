@@ -24,7 +24,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
     >
       <body
         className={cn(
-          "dark relative min-h-screen font-sans antialiased",
+          "dark min-h-screen font-sans antialiased",
           fontSans.variable,
         )}
       >
