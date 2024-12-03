@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(3, "Min 3 characters").trim(),
@@ -31,6 +32,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function SignUpForm() {
   const [isLoading, startTransaction] = useTransition();
+  const router = useRouter();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -55,6 +57,7 @@ export function SignUpForm() {
       const data = await res.json();
 
       toast.success(data.message);
+      router.push("/sign-in");
     }
 
     startTransaction(() => signIn());

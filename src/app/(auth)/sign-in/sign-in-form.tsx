@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,16 +9,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { PasswordInput } from "../ui/password-input";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -28,6 +29,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function SignInForm() {
   const [isLoading, startTransaction] = useTransition();
+  const router = useRouter();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -50,6 +52,7 @@ export function SignInForm() {
       const data = await res.json();
 
       toast.success(data.message);
+      router.push("/");
     }
 
     startTransaction(() => signUp());

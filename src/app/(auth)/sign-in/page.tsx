@@ -1,7 +1,7 @@
-import { SignInForm } from "@/components/forms/sign-in-form";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { SignInForm } from "./sign-in-form";
 
 export default function SignInPage() {
   return (
