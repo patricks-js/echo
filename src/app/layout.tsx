@@ -23,7 +23,10 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       suppressHydrationWarning
     >
       <body
-        className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
+        className={cn(
+          "dark relative min-h-screen font-sans antialiased",
+          fontSans.variable,
+        )}
       >
         {children}
         <Toaster />
