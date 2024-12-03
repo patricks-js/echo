@@ -8,8 +8,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -23,6 +27,8 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export function SignInForm() {
+  const [isLoading, startTransaction] = useTransition();
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,7 +38,21 @@ export function SignInForm() {
   });
 
   async function onSubmit(values: FormData) {
-    console.log(values);
+    async function signUp() {
+      const res = await api.accounts.login.$post({ json: values });
+
+      if (!res.ok) {
+        const error = await res.json();
+        toast.error(`Error: ${error.message}`);
+        return;
+      }
+
+      const data = await res.json();
+
+      toast.success(data.message);
+    }
+
+    startTransaction(() => signUp());
   }
 
   return (
@@ -73,7 +93,12 @@ export function SignInForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full">Login</Button>
+        <Button
+          disabled={isLoading}
+          className="w-full"
+        >
+          {isLoading ? <Loader className="size-4" /> : "Login"}
+        </Button>
       </form>
     </Form>
   );
