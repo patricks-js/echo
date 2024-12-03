@@ -57,10 +57,18 @@ export const accountsRoutes = new Hono()
       if (!passwordMatch)
         return c.json({ message: "Invalid credentials" }, 401);
 
-      setCookie(c, "userId", user.id, {
+      const payload = {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        avatarUrl: "https://github.com/patricks-js.png",
+      };
+
+      setCookie(c, "user_session", JSON.stringify(payload), {
         path: "/",
         httpOnly: true,
-        maxAge: 60 * 15,
+        maxAge: 60 * 60,
       });
 
       return c.json({ message: "Authentication successful!" });

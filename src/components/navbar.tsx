@@ -1,11 +1,13 @@
 import { Logo } from "@/components/icons/logo";
-import { cookies } from "next/headers";
+import { getSession } from "@/lib/auth";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export async function Navbar() {
-  const cookie = await cookies();
-  const userId = cookie.get("userId");
+  const session = await getSession();
+
+  console.log(session);
 
   return (
     <header className="sticky top-0 h-20 border-b backdrop-blur">
@@ -17,12 +19,13 @@ export async function Navbar() {
           <Logo className="size-10" />
           <h3 className="font-semibold text-2xl">Echo</h3>
         </Link>
-        {userId ? (
-          <ul className="flex items-center gap-4">
-            <li>Write</li>
-            <li>Logout</li>
-            <li>AV</li>
-          </ul>
+        {session ? (
+          <div className="flex items-center gap-4">
+            <Avatar>
+              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src={session.avatarUrl} />
+            </Avatar>
+          </div>
         ) : (
           <Button asChild>
             <Link href="/sign-in">Login</Link>
