@@ -1,13 +1,27 @@
 import { Clock, Eye } from "lucide-react";
 import { Badge } from "./ui/badge";
 
+type AuthorProps = {
+  name: string;
+  image?: string;
+};
+
+type BlogCardProps = {
+  publishedAt: Date;
+  title: string;
+  description: string;
+  image?: string;
+  viewsCount: number;
+  minRead: number;
+  tags: string[];
+  author: AuthorProps;
+};
+
 export function BlogCard() {
   return (
     <div className="flex items-start justify-between">
-      <div>
-        <span className="mb-2 inline-block text-muted-foreground">
-          December 2, 2024
-        </span>
+      <div className="space-y-4">
+        <Author />
         <div>
           <h3 className="font-bold text-xl leading-normal tracking-tight">
             Nesting a Button inside a Link
@@ -28,15 +42,28 @@ export function BlogCard() {
           </div>
           <ul className="flex items-center gap-2">
             <li>
-              <Badge>Web</Badge>
+              <Badge variant="secondary">Web</Badge>
             </li>
             <li>
-              <Badge>React</Badge>
+              <Badge variant="secondary">React</Badge>
             </li>
           </ul>
         </footer>
       </div>
       <div className="h-28 w-44 rounded-lg bg-secondary" />
+    </div>
+  );
+}
+
+function Author() {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="size-8 rounded-full bg-secondary" />
+      <div className="space-x-1">
+        <span className="font-medium">Author Name</span>
+        <span className="align-middle">•</span>
+        <span className="text-muted-foreground text-sm">December 2, 2024</span>
+      </div>
     </div>
   );
 }
