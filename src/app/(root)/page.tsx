@@ -5,7 +5,7 @@ import { PostSearch } from "@/components/post-search";
 export default function Home() {
   return (
     <>
-      <section className="space-y-6 border-b py-20">
+      <section className="space-y-6 border-b pb-16">
         <header className="mx-auto text-center">
           <h1 className="font-bold text-6xl leading-snug tracking-tight">
             Echo
