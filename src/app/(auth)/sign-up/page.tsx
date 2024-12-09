@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { SignUpForm } from "./sign-up-form";
+
+import { Button } from "@/components/ui/button";
+import { SignUpForm } from "@/features/auth/components/sign-up-form";
 
 export default function SignUpPage() {
   return (
