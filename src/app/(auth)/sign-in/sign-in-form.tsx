@@ -2,10 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { api } from "@/lib/api";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -29,8 +26,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export function SignInForm() {
-  const [isLoading, startTransaction] = useTransition();
-  const router = useRouter();
+  const [isLoading] = useState();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -41,22 +37,7 @@ export function SignInForm() {
   });
 
   async function onSubmit(values: FormData) {
-    async function signUp() {
-      const res = await api.users.login.$post({ json: values });
-
-      if (!res.ok) {
-        const error = await res.json();
-        toast.error(`Error: ${error.message}`);
-        return;
-      }
-
-      const data = await res.json();
-
-      toast.success(data.message);
-      router.push("/");
-    }
-
-    startTransaction(() => signUp());
+    console.log(values);
   }
 
   return (
