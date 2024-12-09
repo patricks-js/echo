@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,26 +17,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { loginSchema } from "@/features/auth/schemas";
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(4, "Min 4 characters"),
-});
-
-type FormData = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof loginSchema>;
 
 export function SignInForm() {
   const [isLoading] = useState();
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: FormData) {
+  async function onSubmit(values: FormValues) {
     console.log(values);
   }
 
