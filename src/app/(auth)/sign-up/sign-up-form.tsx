@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,10 +20,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { api } from "@/lib/api";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  name: z.string().min(3, "Min 3 characters").trim(),
   username: z.string().min(3, "Min 3 characters").trim(),
   email: z.string().email(),
   password: z.string().min(4, "Min 4 characters"),
@@ -37,7 +36,6 @@ export function SignUpForm() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       username: "",
       email: "",
       password: "",
@@ -46,7 +44,7 @@ export function SignUpForm() {
 
   async function onSubmit(values: FormData) {
     async function signIn() {
-      const res = await api.accounts.$post({ json: values });
+      const res = await api.users.$post({ json: values });
 
       if (!res.ok) {
         const error = await res.json();
@@ -69,40 +67,22 @@ export function SignUpForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full max-w-md space-y-2"
       >
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="John Doe"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="@username"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="@username"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"

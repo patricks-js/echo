@@ -1,5 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,13 +20,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { api } from "@/lib/api";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -41,7 +42,7 @@ export function SignInForm() {
 
   async function onSubmit(values: FormData) {
     async function signUp() {
-      const res = await api.accounts.login.$post({ json: values });
+      const res = await api.users.login.$post({ json: values });
 
       if (!res.ok) {
         const error = await res.json();
