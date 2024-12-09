@@ -22,5 +22,5 @@ export const users = pgTable(
 );
 
 export const insertUserSchema = createInsertSchema(users, {
-  email: (schema) => schema.email.email(),
+  email: (schema) => schema.email(),
 });

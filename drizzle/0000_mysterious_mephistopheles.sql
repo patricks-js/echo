@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "users" (
+CREATE TABLE "users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"username" text NOT NULL,
 	"email" text NOT NULL,
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "idx_email" ON "users" USING btree ("email");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "idx_username" ON "users" USING btree ("username");
+CREATE INDEX "idx_email" ON "users" USING btree ("email");--> statement-breakpoint
+CREATE INDEX "idx_username" ON "users" USING btree ("username");
