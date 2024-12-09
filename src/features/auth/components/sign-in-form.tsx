@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
-import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -17,12 +17,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useLogin } from "@/features/auth/hooks/use-login";
 import { loginSchema } from "@/features/auth/schemas";
 
 type FormValues = z.infer<typeof loginSchema>;
 
 export function SignInForm() {
-  const [isLoading] = useState();
+  const { mutate, isPending: isLoading } = useLogin();
+  const router = useRouter();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
@@ -32,8 +34,12 @@ export function SignInForm() {
     },
   });
 
-  async function onSubmit(values: FormValues) {
-    console.log(values);
+  function onSubmit(values: FormValues) {
+    mutate(values, {
+      onSuccess: () => {
+        router.push("/");
+      },
+    });
   }
 
   return (
@@ -78,7 +84,7 @@ export function SignInForm() {
           disabled={isLoading}
           className="w-full"
         >
-          {isLoading ? <Loader className="size-4" /> : "Login"}
+          {isLoading ? <Loader2 className="size-4" /> : "Login"}
         </Button>
       </form>
     </Form>
