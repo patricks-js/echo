@@ -14,7 +14,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     // Always run for API routes
-    "/(api|trpc)(.*)",
     "/editor(.*)",
     "/settings(.*)",
   ],
