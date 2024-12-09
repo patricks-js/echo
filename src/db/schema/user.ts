@@ -15,8 +15,8 @@ export const users = pgTable(
     password: t.text().notNull(),
     bio: t.text(),
     image: t.text(),
-    createdAt: t.timestamp().defaultNow().notNull(),
-    updatedAt: t.timestamp().defaultNow().notNull(),
+    createdAt: t.timestamp("created_at").defaultNow().notNull(),
+    updatedAt: t.timestamp("updated_at").defaultNow().notNull(),
   }),
   (t) => [index("idx_email").on(t.email), index("idx_username").on(t.username)],
 );

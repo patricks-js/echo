@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -17,12 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useRegister } from "@/features/auth/hooks/use-register";
 import { registerSchema } from "@/features/auth/schemas";
+import { useRouter } from "next/navigation";
 
 type FormValues = z.infer<typeof registerSchema>;
 
-export function SignUpForm() {
-  const [isLoading] = useState(false);
+export const SignUpForm = () => {
+  const { mutate, isPending: isLoading } = useRegister();
+  const router = useRouter();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(registerSchema),
@@ -33,9 +35,13 @@ export function SignUpForm() {
     },
   });
 
-  async function onSubmit(values: FormValues) {
-    console.log(values);
-  }
+  const onSubmit = (values: FormValues) => {
+    mutate(values, {
+      onSuccess: () => {
+        router.push("/sign-in");
+      },
+    });
+  };
 
   return (
     <Form {...form}>
@@ -100,4 +106,4 @@ export function SignUpForm() {
       </form>
     </Form>
   );
-}
+};
