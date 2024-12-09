@@ -4,6 +4,7 @@ import type { PropsWithChildren } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { QueryProvider } from "@/shared/query-provider";
 import "./globals.css";
 
 const fontSans = Outfit({
@@ -28,7 +29,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           fontSans.variable,
         )}
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
         <Toaster />
       </body>
     </html>
