@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AccountSidebar } from "@/features/profile/components/account-sidebar";
+import { ProfileSidebar } from "@/features/profiles/components/profile-sidebar";
 import { Eye } from "lucide-react";
 
 type PageParams = {
@@ -14,7 +14,7 @@ export default async function ProfilePage({ params }: PageParams) {
 
   return (
     <div className="grid grid-cols-[288px_1fr] gap-8">
-      <AccountSidebar username={username} />
+      <ProfileSidebar username={username} />
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 7 }).map((_, a) => (
           <div

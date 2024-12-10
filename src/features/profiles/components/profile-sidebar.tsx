@@ -4,19 +4,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import { useGetProfile } from "../hooks/use-get-profile";
 
-type AccountSidebarProps = {
+type ProfileSidebarProps = {
   username: string;
 };
 
-export const AccountSidebar = ({ username }: AccountSidebarProps) => {
+export const ProfileSidebar = ({ username }: ProfileSidebarProps) => {
   const { data, isLoading, error } = useGetProfile(username);
 
-  if (isLoading) return <AccountSidebarSkeleton />;
+  if (isLoading) return <ProfileSidebarSkeleton />;
 
-  if (error) return <AccountSidebarError />;
+  if (error) notFound();
 
   return (
     <aside className="max-w-xs space-y-4">
@@ -31,24 +31,24 @@ export const AccountSidebar = ({ username }: AccountSidebarProps) => {
       </Avatar>
       <div className="text-center">
         <h4 className="font-semibold text-xl tracking-tight">
-          {data?.username ?? "Usuário"}
+          {data?.username ?? "User"}
         </h4>
         <span className="text-muted-foreground">
-          {data?.email ?? "E-mail indisponível"}
+          {data?.email ?? "E-mail unavailable"}
         </span>
       </div>
       <Separator />
       <footer className="space-y-4">
         <p className="text-center text-muted-foreground leading-relaxed">
-          {data?.bio ?? "Nenhuma biografia disponível"}
+          {data?.bio ?? "Bio unavailable"}
         </p>
-        <Button className="w-full">Seguir</Button>
+        <Button className="w-full">Follow</Button>
       </footer>
     </aside>
   );
 };
 
-const AccountSidebarSkeleton = () => {
+const ProfileSidebarSkeleton = () => {
   return (
     <aside className="max-w-xs space-y-4">
       <Skeleton className="mx-auto size-36 rounded-full" />
@@ -64,25 +64,6 @@ const AccountSidebarSkeleton = () => {
         </div>
         <Skeleton className="h-9 w-full" />
       </footer>
-    </aside>
-  );
-};
-
-const AccountSidebarError = () => {
-  const router = useRouter();
-
-  return (
-    <aside className="max-w-xs space-y-4">
-      <p className="text-center text-muted-foreground">
-        Ocorreu um erro ao carregar o perfil. Tente novamente mais tarde.
-      </p>
-      <Button
-        variant="destructive"
-        onClick={() => router.refresh()}
-        className="w-full"
-      >
-        Reload
-      </Button>
     </aside>
   );
 };

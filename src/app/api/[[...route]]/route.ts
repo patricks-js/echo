@@ -1,6 +1,6 @@
 import { authRoutes } from "@/features/auth/api/route";
 import { userRoutes } from "@/features/me/api/route";
-import { profileRoutes } from "@/features/profile/api/route";
+import { profileRoutes } from "@/features/profiles/api/route";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
