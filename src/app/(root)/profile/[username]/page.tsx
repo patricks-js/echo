@@ -1,11 +1,7 @@
-"use client";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AccountSidebar } from "@/features/profile/components/account-sidebar";
-import { useGetProfile } from "@/features/profile/hooks/use-get-profile";
 import { Eye } from "lucide-react";
-import { use } from "react";
 
 type PageParams = {
   params: Promise<{
@@ -13,17 +9,12 @@ type PageParams = {
   }>;
 };
 
-export default function ProfilePage({ params }: PageParams) {
-  const { username } = use(params);
-  const { data, isLoading, error } = useGetProfile(username);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Something went wrong</div>;
-  if (!data) return <div>Something went wrong</div>;
+export default async function ProfilePage({ params }: PageParams) {
+  const { username } = await params;
 
   return (
     <div className="grid grid-cols-[288px_1fr] gap-8">
-      <AccountSidebar user={data} />
+      <AccountSidebar username={username} />
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 7 }).map((_, a) => (
           <div
