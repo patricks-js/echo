@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import { index, pgTable } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 
 export const users = pgTable(
   "users",
@@ -23,4 +23,7 @@ export const users = pgTable(
 
 export const insertUserSchema = createInsertSchema(users, {
   email: (schema) => schema.email(),
+});
+export const updateUserSchema = createUpdateSchema(users, {
+  email: (schema) => schema.email().optional(),
 });
