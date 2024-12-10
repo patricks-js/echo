@@ -6,7 +6,7 @@ import { eq, or } from "drizzle-orm";
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
 import { sign } from "hono/jwt";
-import { AUTH_COOKIE } from "../constants";
+import { AUTH_COOKIE, AUTH_EXPIRES_IN } from "../constants";
 import { loginSchema, registerSchema } from "../schemas";
 
 export const authRoutes = new Hono()
@@ -55,7 +55,7 @@ export const authRoutes = new Hono()
       username: user.username,
       email: user.email,
       image: user.image,
-      exp: Math.floor(Date.now() / 1000) + 60 * 10,
+      exp: Math.floor(Date.now() / 1000) + AUTH_EXPIRES_IN,
     };
 
     const sessionToken = await sign(payload, env.AUTH_SECRET);
@@ -64,8 +64,9 @@ export const authRoutes = new Hono()
       path: "/",
       httpOnly: true,
       sameSite: "Strict",
+      domain: env.NEXT_PUBLIC_APP_URL,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24,
+      maxAge: AUTH_EXPIRES_IN,
     });
 
     return c.json({ message: "You are logged. Welcome back!" }, 200);
