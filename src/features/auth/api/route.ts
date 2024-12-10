@@ -1,9 +1,12 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
+import { env } from "@/lib/env";
 import { zValidator } from "@hono/zod-validator";
 import { eq, or } from "drizzle-orm";
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
+import { sign } from "hono/jwt";
+import { AUTH_COOKIE } from "../constants";
 import { loginSchema, registerSchema } from "../schemas";
 
 export const authRoutes = new Hono()
@@ -33,7 +36,13 @@ export const authRoutes = new Hono()
     const { email, password } = c.req.valid("json");
 
     const [user] = await db
-      .select({ id: users.id, password: users.password })
+      .select({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+        password: users.password,
+        image: users.image,
+      })
       .from(users)
       .where(eq(users.email, email));
 
@@ -41,10 +50,23 @@ export const authRoutes = new Hono()
       return c.json({ error: "Invalid credentials." }, 401);
     }
 
-    setCookie(c, "user_id", JSON.stringify({ userId: user.id }), {
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      image: user.image,
+      exp: Math.floor(Date.now() / 1000) + 60 * 10,
+    };
+
+    const sessionToken = await sign(payload, env.AUTH_SECRET);
+
+    setCookie(c, AUTH_COOKIE, sessionToken, {
       path: "/",
       httpOnly: true,
-      maxAge: 60 * 60,
+      sameSite: "Strict",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24,
     });
 
     return c.json({ message: "You are logged. Welcome back!" }, 200);
