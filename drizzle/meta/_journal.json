@@ -15,6 +15,20 @@
       "when": 1733803450962,
       "tag": "0001_keen_wild_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1733853351636,
+      "tag": "0002_worthless_expediter",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1733853420704,
+      "tag": "0003_skinny_warbird",
+      "breakpoints": true
     }
   ]
 }
