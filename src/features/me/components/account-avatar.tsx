@@ -5,10 +5,7 @@ type AccountAvatarProps = {
   image: string;
 };
 
-export const AccountAvatar = async ({
-  username,
-  image,
-}: AccountAvatarProps) => {
+export const AccountAvatar = ({ username, image }: AccountAvatarProps) => {
   return (
     <Avatar className="size-9">
       <AvatarFallback className="text-xs">

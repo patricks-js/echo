@@ -64,7 +64,6 @@ export const authRoutes = new Hono()
       path: "/",
       httpOnly: true,
       sameSite: "Strict",
-      domain: env.NEXT_PUBLIC_APP_URL,
       secure: process.env.NODE_ENV === "production",
       maxAge: AUTH_EXPIRES_IN,
     });

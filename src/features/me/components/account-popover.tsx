@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,15 +11,18 @@ import {
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { useGetAccount } from "../hooks/use-get-account";
 import { AccountAvatar } from "./account-avatar";
 
 export const AccountPopover = () => {
+  const { data } = useGetAccount();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <AccountAvatar
-          username="patrick"
-          image="https://github.com/patricks-js.png"
+          username={data?.username ?? ""}
+          image={data?.image ?? ""}
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -27,7 +32,7 @@ export const AccountPopover = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             {/* TODO: get dynamic username */}
-            <Link href="/profiles/patrick">Profile</Link>
+            <Link href={`/profile/${data?.username}`}>Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/settings">Settings</Link>
@@ -39,7 +44,7 @@ export const AccountPopover = () => {
             variant="ghost"
             className="h-full w-full justify-start"
           >
-            <LogOut className="" />
+            <LogOut />
             <span>Log out</span>
           </Button>
         </DropdownMenuItem>
