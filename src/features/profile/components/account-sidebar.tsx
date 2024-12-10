@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 type AccountSidebarProps = {
@@ -31,10 +32,11 @@ export const AccountSidebar = ({ user }: AccountSidebarProps) => {
       </div>
       {/* TODO: Followers section */}
       <Separator />
-      <footer>
+      <footer className="space-y-4">
         <p className="text-center text-muted-foreground leading-relaxed">
           {user.bio}
         </p>
+        <Button className="w-full">Follow</Button>
         {/* TODO: Social medias? */}
       </footer>
     </aside>
