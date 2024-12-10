@@ -54,7 +54,6 @@ export const authRoutes = new Hono()
       sub: user.id,
       username: user.username,
       email: user.email,
-      password: user.password,
       image: user.image,
       exp: Math.floor(Date.now() / 1000) + 60 * 10,
     };
