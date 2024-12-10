@@ -37,6 +37,11 @@ export const ProfileSidebar = ({ username }: ProfileSidebarProps) => {
           {data?.email ?? "E-mail unavailable"}
         </span>
       </div>
+      <div className="flex justify-center gap-2 text-center text-muted-foreground text-sm">
+        <span>42 Following</span>
+        <span>•</span>
+        <span>10 Followers</span>
+      </div>
       <Separator />
       <footer className="space-y-4">
         <p className="text-center text-muted-foreground leading-relaxed">
