@@ -1,7 +1,8 @@
 import { Logo as Brand } from "@/components/icons/logo";
+import { useSession } from "@/features/auth/hooks/use-session";
+import { AccountPopover } from "@/features/me/components/account-popover";
 import { Bell, Edit } from "lucide-react";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export const Navbar = () => {
@@ -28,15 +29,17 @@ const Logo = () => {
 };
 
 const NavActions = async () => {
-  const session = false;
+  const session = await useSession();
 
   return (
     <>
       {session ? (
         <div className="flex items-center gap-4">
-          <Button>
-            <Edit className="size-4" />
-            Write
+          <Button asChild>
+            <Link href="/editor">
+              <Edit className="size-4" />
+              Write
+            </Link>
           </Button>
           <Button
             variant="ghost"
@@ -45,10 +48,7 @@ const NavActions = async () => {
           >
             <Bell />
           </Button>
-          <Avatar className="size-9">
-            <AvatarFallback className="text-xs">CN</AvatarFallback>
-            <AvatarImage src={""} />
-          </Avatar>
+          <AccountPopover />
         </div>
       ) : (
         <Button asChild>
