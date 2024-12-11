@@ -5,7 +5,7 @@ export default function AppLayout({ children }: PropsWithChildren) {
   return (
     <div className="relative">
       <Navbar />
-      <main className="mx-auto max-w-screen-xl px-6 py-16 md:px-8">
+      <main className="mx-auto max-w-screen-xl px-6 py-8 pb-20 md:px-8">
         {children}
       </main>
     </div>
