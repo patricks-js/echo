@@ -25,5 +25,5 @@ export const insertUserSchema = createInsertSchema(users, {
   email: (schema) => schema.email(),
 });
 export const updateUserSchema = createUpdateSchema(users, {
-  email: (schema) => schema.email().optional(),
+  email: (schema) => schema.email(),
 });
