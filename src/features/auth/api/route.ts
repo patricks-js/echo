@@ -20,7 +20,7 @@ export const authRoutes = new Hono()
 
     if (user)
       return c.json(
-        { error: "Account creation failed. Please try again." },
+        { error: "Criação da conta falhou. Tente novamente." },
         409,
       );
 
@@ -30,7 +30,7 @@ export const authRoutes = new Hono()
       password,
     });
 
-    return c.json({ message: "Registered successful!" }, 201);
+    return c.json({ message: "Registrado com sucesso! 🎉" }, 201);
   })
   .post("/login", zValidator("json", loginSchema), async (c) => {
     const { email, password } = c.req.valid("json");
@@ -47,7 +47,7 @@ export const authRoutes = new Hono()
       .where(eq(users.email, email));
 
     if (!user || password !== user.password) {
-      return c.json({ error: "Invalid credentials." }, 401);
+      return c.json({ error: "Credenciais inválidas." }, 401);
     }
 
     const payload = {
@@ -68,5 +68,5 @@ export const authRoutes = new Hono()
       maxAge: AUTH_EXPIRES_IN,
     });
 
-    return c.json({ message: "You are logged. Welcome back!" }, 200);
+    return c.json({ message: "Bem-vindo de volta! Aproveite. 🤩" }, 200);
   });
