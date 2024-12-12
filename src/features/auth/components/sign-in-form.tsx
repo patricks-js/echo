@@ -22,7 +22,7 @@ import { loginSchema } from "@/features/auth/schemas";
 
 type FormValues = z.infer<typeof loginSchema>;
 
-export function SignInForm() {
+export const SignInForm = () => {
   const { mutate, isPending: isLoading } = useLogin();
   const router = useRouter();
 
@@ -34,13 +34,13 @@ export function SignInForm() {
     },
   });
 
-  function onSubmit(values: FormValues) {
+  const onSubmit = (values: FormValues) => {
     mutate(values, {
       onSuccess: () => {
         router.push("/");
       },
     });
-  }
+  };
 
   return (
     <Form {...form}>
@@ -89,4 +89,4 @@ export function SignInForm() {
       </form>
     </Form>
   );
-}
+};

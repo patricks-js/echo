@@ -18,11 +18,7 @@ export const authRoutes = new Hono()
       .from(users)
       .where(or(eq(users.email, email), eq(users.username, username)));
 
-    if (user)
-      return c.json(
-        { error: "Criação da conta falhou. Tente novamente." },
-        409,
-      );
+    if (user) return c.json({ error: "Esta conta já está em uso." }, 409);
 
     await db.insert(users).values({
       username,
